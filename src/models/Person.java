@@ -1,3 +1,5 @@
+package models;
+
 import java.util.Date;
 
 public class Person {
@@ -8,7 +10,7 @@ public class Person {
     private Date dateOfBirth;
 
     /**
-     * Constructor for Person (students)
+     * Constructor for models.Person (students)
      * @param firstName     Persons First name
      * @param lastName      Persons Last name
      * @param dateOfBirth   Persons date of birth
@@ -21,7 +23,7 @@ public class Person {
     }
 
     /**
-     * This will define the UID for a Person.
+     * This will define the UID for a models.Person.
      * (dob + fname + lname)
      * @return              The generated ID
      */
@@ -31,8 +33,8 @@ public class Person {
     }
 
     /**
-     * Returns the UID for the Person
-     * @return              The unique ID for each Person
+     * Returns the UID for the models.Person
+     * @return              The unique ID for each models.Person
      */
     public String GetId(){
         return this.id;

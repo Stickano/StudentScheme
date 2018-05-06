@@ -1,3 +1,5 @@
+package models;
+
 import java.util.Date;
 
 public class Teacher extends Person{
@@ -6,7 +8,7 @@ public class Teacher extends Person{
     private Date startDate;
 
     /**
-     * Constructor for teacher. Extends Person.
+     * Constructor for teacher. Extends models.Person.
      * Adds Salary and Start Date
      * @param firstName
      * @param lastName

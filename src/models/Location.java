@@ -1,3 +1,5 @@
+package models;
+
 public class Location {
 
     private int phone;
@@ -10,14 +12,26 @@ public class Location {
         this.location = location;
     }
 
+    /**
+     * Returns the Phone number of a location
+     * @return  (int) The phone number
+     */
     public int GetPhone(){
         return this.phone;
     }
 
+    /**
+     * Returns the Address of the location
+     * @return  (String) The location
+     */
     public String GetLocation(){
         return this.location;
     }
 
+    /**
+     * Returns the Id of a location
+     * @return  (String) The unique school ID
+     */
     public String GetId(){
         return this.id;
     }

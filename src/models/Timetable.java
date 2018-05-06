@@ -1,3 +1,5 @@
+package models;
+
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -5,7 +7,7 @@ import java.util.List;
 public class Timetable {
 
     private List<TimetableEvent> events;
-    private Location location;
+    public Location location;
 
     public Timetable(Location school) {
         this.events = new LinkedList<>();

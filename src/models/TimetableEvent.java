@@ -1,4 +1,4 @@
-import com.sun.org.apache.xpath.internal.operations.Bool;
+package models;
 
 import java.util.Date;
 
@@ -42,9 +42,9 @@ public class TimetableEvent {
      * Constructor with no parameters, for returning empty courses
      */
     public TimetableEvent(){
-        this.dayOfWeek = 7;
-        this.startTime = 0;
-        this.endTime = 0;
+        this.dayOfWeek = -1;
+        this.startTime = -1;
+        this.endTime = -1;
         this.id = "";
         this.eventInformation = "";
         this.startDate = new Date();
