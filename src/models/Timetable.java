@@ -1,5 +1,9 @@
 package models;
 
+import resources.CsvReader;
+import resources.Parser;
+
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +32,7 @@ public class Timetable {
      * @return              The events for the selected day
      */
     public List<TimetableEvent> GetDayEvents(int dayOfWeek){
-        List<TimetableEvent> dayEvents = new LinkedList<TimetableEvent>();
+        List<TimetableEvent> dayEvents = new LinkedList<>();
         for (TimetableEvent event : events) {
             if (event.getDayOfWeek() == dayOfWeek)
                 dayEvents.add(event);
@@ -101,5 +105,39 @@ public class Timetable {
                 return event;
         }
         return new TimetableEvent();
+    }
+
+    /**
+     * Get the results from the events CSV and sort so only related school id is selected.
+     * Then populate the list of events with those results.
+     */
+    private void ReadCsv() {
+        CsvReader events = new CsvReader("src/csv/events.csv");
+        for (String col[] : events.getResults()) {
+            if (col[0].equals(location.GetId())){
+                try {
+                    // Start/End date
+                    SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
+                    Date startDate = dFormat.parse(col[4]);
+                    Date endDate = dFormat.parse(col[5]);
+
+                    // Parse ints (start/end time & day of week)
+                    int startTime = -1;
+                    int endTime = -1;
+                    int dow = -1;
+                    if (Parser.isInt(col[6]))
+                        startTime = Integer.parseInt(col[6]);
+                    if (Parser.isInt(col[7]))
+                        endTime = Integer.parseInt(col[7]);
+                    if (Parser.isInt(col[2]))
+                        dow = Integer.parseInt(col[2]);
+
+                    this.events.add(new TimetableEvent(col[1], dow, col[3], startDate, endDate, startTime, endTime));
+
+                } catch(Exception e) { System.out.printf(e.getMessage()); }
+            }
+        }
+
+
     }
 }

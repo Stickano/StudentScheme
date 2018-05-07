@@ -3,14 +3,15 @@ package models;
 import resources.CsvReader;
 import resources.Parser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class LocationHandler {
 
     private List<Location> locations;
-    private String error;
 
     public LocationHandler() {
+        this.locations = new ArrayList<>();
         readCsv();
     }
 
@@ -18,7 +19,7 @@ public class LocationHandler {
      * Will read the location csv file and populate the list of locations
      */
     private void readCsv () {
-        CsvReader locations = new CsvReader("/csv/locations.csv");
+        CsvReader locations = new CsvReader("src/csv/locations.csv");
         for (String col[] : locations.getResults()){
             int phone = -1;
             if (Parser.isInt(col[1]))
