@@ -1,6 +1,6 @@
 package resources;
 
-import java.io.BufferedReader;
+import com.opencsv.CSVReader;
 import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +8,6 @@ import java.util.List;
 public class CsvReader {
 
     private String csvFile;
-    private String splitBy;
     private List<String[]> results;
 
     /**
@@ -17,7 +16,6 @@ public class CsvReader {
      */
     public CsvReader(String csvFile) {
         this.csvFile = csvFile;
-        this.splitBy = ",";
         this.results = new ArrayList<>();
         readCsv();
     }
@@ -27,24 +25,14 @@ public class CsvReader {
      */
     private void readCsv(){
         try {
-            BufferedReader reader = new BufferedReader(new FileReader(this.csvFile));
-            String line;
-            while ((line = reader.readLine()) != null){
-                String[] res = line.split(this.splitBy);
-                this.results.add(res);
+            CSVReader reader = new CSVReader(new FileReader(this.csvFile));
+            String[] line;
+            while ((line = reader.readNext()) != null){
+                this.results.add(line);
             }
         }catch (Exception e){
             System.out.println(e.getMessage());
         }
-    }
-
-    /**
-     * In case I wanna change the split by symbol
-     * Default ','
-     * @param symbol
-     */
-    public void changeSplitBy(String symbol){
-        this.splitBy = symbol;
     }
 
     /**

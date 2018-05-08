@@ -2,65 +2,47 @@ package com.company;
 
 import models.Location;
 import models.LocationHandler;
+import resources.Parser;
+import resources.Usage;
+
+import java.util.Map;
 
 public class Main {
 
     public static void main(String[] args) {
 
+        // Print the usage options (--help)
+        if (args.length==0 || args[0].equals("-h") || args[0].equals("--help"))
+            System.out.println(Usage.Common());
 
+        // Dictionary of arguments (arg=value)
+        Map<String, String> arguments = Parser.splitParameters(args);
 
-/*
+        // If too many super arguments has been passed, exit
+        int superArguments = Parser.categoryControl(arguments);
+        if (superArguments > 1){
+            System.out.println("Too many super-categories has been passed");
+            System.out.println("Pass only one of the following super-categories: schools, students, events & teachers");
+            System.exit(1);
+        }
 
-        //System.out.printf(System.getProperty("user.dir"));
+        // If no super arguments has been passed, exit
+        if (superArguments < 1) {
+            System.out.println("Pass at least one of the super-categories: schools, students, events, & teacher");
+            System.out.println("Use --help for usage information");
+            System.exit(1);
+        }
 
-        // Run you beautiful bastard! Run and be forever free!
-        while (true) {
-
-            // Welcome message, with available options
-            System.out.println("Pardubice University, IT.");
-            System.out.println("The following options are available; ");
-            System.out.println("(1) View Schools and associated Options");
-            System.out.println("(2) View Students and associated Options");
-            System.out.println("(q) To Quit");
-
-            // Read users input
-            System.out.print("Select Option : ");
-            String input = System.console().readLine();
-
-            // Validate users input
-            boolean selectSchools = false;
-            boolean selectStudents = false;
-            while (true) {
-                if (input.equals("1"))
-                    selectSchools = true;
-                if (input.equals("2"))
-                    selectStudents = true;
-                if (selectSchools || selectStudents || input.equals("q"))
-                    break;
-
-                System.out.println("Failed to read input..");
-            }
-
-            // Quit this beautiful piece of executable!
-            if (input.equals("q"))
-                break;
-
-            // School Options
-            if (selectSchools) {
+        // Print all schools
+        if (args.length == 1 && args[0].toLowerCase().equals("-schools")){
+            LocationHandler locations = new LocationHandler();
+            for (Location location : locations.getLocations()) {
                 System.out.println();
-                System.out.println("Pardubice University: Schools");
-                System.out.println("The following options are available; ");
-                System.out.println("(1) View all Schools (locations)");
-                System.out.println("(2) View Students and associated Options");
-                System.out.println("(q) To Quit");
-            }
-
-            // Student Options
-            if (selectStudents) {
-
+                System.out.println(location.GetId());
+                System.out.println(location.GetLocation());
+                System.out.println(location.GetPhone());
             }
         }
-*/
 
 
     }
