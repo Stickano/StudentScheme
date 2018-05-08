@@ -6,11 +6,22 @@ public class Location {
     private String id;
     private String location;
 
+    /**
+     * Constructor
+     * @param id        Unique school ID
+     * @param phone     Phone number
+     * @param location  Address
+     */
     public Location(String id, int phone, String location) {
         this.id = id;
         this.phone = phone;
         this.location = location;
     }
+
+    /**
+     * Empty constructor to return for invalid ID's
+     */
+    public Location(){};
 
     /**
      * Returns the Phone number of a location

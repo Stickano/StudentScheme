@@ -2,6 +2,8 @@ package resources;
 
 import com.opencsv.CSVReader;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +39,36 @@ public class CsvReader {
 
     /**
      * Returns all the results from the given CSV file
-     * @return      (Array) Separated results
+     * @return      (List of Arrays) Separated results
      */
     public List<String[]> getResults(){
+
         return this.results;
+    }
+
+    /**
+     * Write a new line to this.csvFile
+     * @param values    The values to write on the new line
+     *                  (Values will be double-quoted and comma separated)
+     */
+    public void writeLine(String[] values) {
+
+        String line = "";
+
+        int br = 0;
+        for (String value : values) {
+            line += "\"" + value + "\"";
+            if (br+1 < values.length)
+                line += ",";
+            br++;
+        }
+
+        try {
+            FileWriter writer = new FileWriter(this.csvFile,true);
+            writer.write(line);
+            writer.close();
+        } catch(IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
