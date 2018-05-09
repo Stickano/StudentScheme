@@ -1,5 +1,6 @@
-package models;
+package controllers;
 
+import models.Location;
 import resources.CsvReader;
 import resources.Parser;
 
@@ -8,13 +9,17 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class LocationHandler {
+public class LocationController {
 
     private Map<String, Location> locations;
     private CsvReader csv;
     private final String csvLocation = "csv/locations.csv";
 
-    public LocationHandler() {
+    /**
+     * Constructor.
+     * Will run the method that populates the locations dictionary
+     */
+    public LocationController() {
         this.locations = new HashMap<>();
         csv = new CsvReader(csvLocation);
         readCsv();

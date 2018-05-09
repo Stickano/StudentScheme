@@ -71,4 +71,10 @@ public class Person {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    /**
+     * Returns the Date of Birth as a Date object
+     * @return      (Date) Date of Birth
+     */
+    public Date getDateOfBirth() { return dateOfBirth; }
 }

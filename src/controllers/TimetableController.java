@@ -1,5 +1,7 @@
-package models;
+package controllers;
 
+import models.Location;
+import models.TimetableEvent;
 import resources.CsvReader;
 import resources.Parser;
 
@@ -8,22 +10,25 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Timetable {
+public class TimetableController {
 
     private List<TimetableEvent> events;
+    private CsvReader csv;
     public Location location;
 
     /**
      * Constructor. Will run the method that populate the events for a specific location
      * @param school        The location to read events from
      */
-    public Timetable(Location school) {
+    public TimetableController(Location school) {
         this.events = new LinkedList<>();
         this.location = school;
+        csv = new CsvReader("csv/events.csv");
         ReadCsv();
     }
 
     /**
+     * TODO: Can be removed I guess?
      * Returns all the events in a week
      * @return              All events
      */
@@ -48,7 +53,8 @@ public class Timetable {
     }
 
     /**
-     * Adds a new event to the list of events
+     * Adds a new event to the list of events -
+     * PSYKE!, saves to the CSV.
      * @param UniqueId      A uniquely identifiable class identification
      * @param dayOfWeek     0 = Monday, 6 = Sunday (unlikely, hopefully)
      * @param startDate     Starting date
@@ -68,8 +74,22 @@ public class Timetable {
         if (!CheckUniqueId(UniqueId))
             throw new Exception("ID is already in use");
 
+        // kek. For reasons unknown. TODO: Remove this shit too
         TimetableEvent newEvent = new TimetableEvent(UniqueId, dayOfWeek, information, startDate, endDate, startTime, endTime);
         events.add(newEvent);
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
+        String sdate = df.format(startDate);
+        String edate = df.format(endDate);
+        String[] line = {   location.GetId(),
+                            UniqueId,
+                            Integer.toString(dayOfWeek),
+                            information,
+                            sdate,
+                            edate,
+                            Integer.toString(startTime),
+                            Integer.toString(endTime) };
+        csv.writeLine(line);
     }
 
     /**
@@ -118,8 +138,7 @@ public class Timetable {
      * Then populate the list of events with those results.
      */
     private void ReadCsv() {
-        CsvReader events = new CsvReader("csv/events.csv");
-        for (String col[] : events.getResults()) {
+        for (String col[] : csv.getResults()) {
             if (col[0].equals(location.GetId())){
                 Date startDate = Parser.parseDate(col[4]);
                 Date endDate = Parser.parseDate(col[5]);

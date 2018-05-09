@@ -1,8 +1,10 @@
 package com.company;
 
+import controllers.StudentController;
 import models.Location;
-import models.LocationHandler;
-import models.Timetable;
+import controllers.LocationController;
+import controllers.TimetableController;
+import models.Person;
 import models.TimetableEvent;
 import resources.Parser;
 import resources.Usage;
@@ -52,7 +54,7 @@ public class Main {
          */
         if (arguments.containsKey("-schools")){
 
-            LocationHandler locations = new LocationHandler();
+            LocationController locations = new LocationController();
 
             // Display all schools
             if (arguments.size() == 1){
@@ -116,14 +118,14 @@ public class Main {
             }
 
             // Match the school ID to a location (or throw error if none found) and initialize a timetable object
-            LocationHandler locations = new LocationHandler();
+            LocationController locations = new LocationController();
             if (!locations.confirmLocationId(arguments.get("-school"))) {
                 System.out.println("Incorrect School ID");
                 System.out.println("--help for usage information");
             }
 
             Location location = locations.getLocation(arguments.get("-school"));
-            Timetable events = new Timetable(location);
+            TimetableController events = new TimetableController(location);
             SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy");
 
             // Show all events for a school
@@ -144,7 +146,6 @@ public class Main {
 
             // Show specific event
             if (arguments.containsKey("-id") && arguments.size() == 3) {
-                System.out.println("pikos");
                 TimetableEvent event = events.GetEvent(arguments.get("-id"));
                 System.out.println(event.getId());
                 System.out.println(df.format(event.getStartDate()) + " - " + df.format(event.getEndDate()));
@@ -252,7 +253,87 @@ public class Main {
         }
 
 
+        /**
+         * Students and its options
+         */
+        if (arguments.containsKey("-students")) {
+            StudentController students = new StudentController();
+
+            // Print all students
+            if (arguments.size() == 1) {
+                for (Person student : students.getStudents()) {
+                    System.out.println();
+                    System.out.println(student.getFirstName() + " " + student.getLastName());
+                    System.out.println("ID: " + student.GetId());
+                }
+            }
+
+            // Show specific student TODO
+            if (arguments.containsKey("-id") && arguments.size() == 2){
+
+            }
+
+            // Create new student TODO
+            if (arguments.containsKey("-create") && arguments.size() == 4) {
+
+            }
+
+            // Update a student TODO
+            if (arguments.containsKey("-update") && arguments.size() == 3 ) {
+
+            }
+
+            // Delete a student TODO
+            if (arguments.containsKey("-delete") && arguments.size() == 2) {
+
+            }
+
+            // Enroll (or remove) a student to courses TODO
+            if (arguments.containsKey("-enroll") && arguments.size() == 4 || arguments.size() == 5) {
+
+            }
+
+            // Show student marks TODO
+            if (arguments.containsKey("-marks") && arguments.size() == 2) {
+
+            }
+
+            // Add/Remove student marks TODO
+            if (arguments.containsKey("-narks") && arguments.size() == 4 || arguments.size() == 5) {
+
+            }
+        }
 
 
+        /**
+         * Teachers and its options
+         */
+        if (arguments.containsKey("-teachers")) {
+
+            // Display all teachers TODO
+            if (arguments.size() == 1) {
+
+            }
+
+            // Display specific teacher TODO
+            if (arguments.containsKey("-id") && arguments.size() == 2) {
+
+            }
+
+            // Create a new teacher TODO
+            if (arguments.containsKey("-create") && arguments.size() == 6) {
+
+            }
+
+            // Delete a teacher TODO
+            if (arguments.containsKey("-delete") && arguments.size() == 2) {
+
+            }
+
+            // Bind teacher to course (or remove) TODO
+            if (arguments.containsKey("-bind") && arguments.size() == 4 || arguments.size() == 5) {
+
+            }
+        }
     }
 }

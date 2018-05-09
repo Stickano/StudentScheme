@@ -14,7 +14,7 @@ public class CsvReader {
 
     /**
      * Constructor
-     * @param csvFile
+     * @param csvFile   The CSV file to read (./csv/*.csv)
      */
     public CsvReader(String csvFile) {
         this.csvFile = csvFile;
@@ -42,7 +42,6 @@ public class CsvReader {
      * @return      (List of Arrays) Separated results
      */
     public List<String[]> getResults(){
-
         return this.results;
     }
 
