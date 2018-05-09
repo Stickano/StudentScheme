@@ -2,14 +2,25 @@ package com.company;
 
 import models.Location;
 import models.LocationHandler;
+import models.Timetable;
+import models.TimetableEvent;
 import resources.Parser;
 import resources.Usage;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 
 public class Main {
 
     public static void main(String[] args) {
+
+        /**
+         * This is all very static and a LOT of refactoring would be needed
+         * if the parameters should ever change - Relevant for all of the major categories.
+         */
+
 
         // Print the usage options (--help)
         if (args.length==0 || args[0].equals("-h") || args[0].equals("--help")) {
@@ -38,8 +49,6 @@ public class Main {
 
         /**
          * Schools and its options
-         * This is all very static and a LOT of refactoring would be needed
-         * if the parameters should ever change - Relevant for all of the major categories.
          */
         if (arguments.containsKey("-schools")){
 
@@ -92,5 +101,158 @@ public class Main {
                 locations.createLocation(location);
             }
         }
+
+
+        /**
+         * Events and its options
+         */
+        if (arguments.containsKey("-events") && arguments.size() >= 2) {
+
+            // Check that we have a school ID
+            if (!arguments.containsKey("-school")) {
+                System.out.println("Missing School ID (-school=\"School ID\")");
+                System.out.println("--help for usage information");
+                System.exit(1);
+            }
+
+            // Match the school ID to a location (or throw error if none found) and initialize a timetable object
+            LocationHandler locations = new LocationHandler();
+            if (!locations.confirmLocationId(arguments.get("-school"))) {
+                System.out.println("Incorrect School ID");
+                System.out.println("--help for usage information");
+            }
+
+            Location location = locations.getLocation(arguments.get("-school"));
+            Timetable events = new Timetable(location);
+            SimpleDateFormat df = new SimpleDateFormat("MMM dd yyyy");
+
+            // Show all events for a school
+            if (arguments.size() == 2) {
+                String[] weekDays = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"};
+                for (int i=0; i<7; i++) {
+                    System.out.println();
+                    System.out.println(weekDays[i]);
+                    for (TimetableEvent event : events.GetDayEvents(i)) {
+                        System.out.println("    " + event.getId());
+                        System.out.println("    " + df.format(event.getStartDate()) + " - " + df.format(event.getEndDate()));
+                        System.out.println("    " + event.getStartTime() + " - " + event.getEndTime());
+                        System.out.println("        " + event.getEventInformation());
+                        System.out.println();
+                    }
+                }
+            }
+
+            // Show specific event
+            if (arguments.containsKey("-id") && arguments.size() == 3) {
+                System.out.println("pikos");
+                TimetableEvent event = events.GetEvent(arguments.get("-id"));
+                System.out.println(event.getId());
+                System.out.println(df.format(event.getStartDate()) + " - " + df.format(event.getEndDate()));
+                System.out.println(event.getStartTime() + " - " + event.getEndTime());
+                System.out.println("    " + event.getEventInformation());
+                System.out.println();
+            }
+
+            // Create an event
+            if (arguments.containsKey("-create") && arguments.size() == 8) {
+                // Control all arguments are available
+                if (!arguments.containsKey("-id")
+                        && !arguments.containsKey("-day")
+                        && !arguments.containsKey("-info")
+                        && !arguments.containsKey("-date")
+                        && !arguments.containsKey("-time")){
+                    System.out.println("Missing one of the following arguments: Id, Day, Info, Date or Time");
+                    System.out.println("--help for usage information");
+                    System.exit(1);
+                }
+
+                // Split date (start/end). Confirm it has two values
+                String[] dates = arguments.get("-date").split("-");
+                if (dates.length != 2){
+                    System.out.println("Date string is wrong");
+                    System.out.println("Date format is YearMonthDay - All numeric");
+                    System.out.println("The expected input is: \"startDate-endDate\"");
+                    System.exit(1);
+                }
+
+                // Control the two values are integers
+                for (String date : dates) {
+                    date = date.replace("\"","");
+                    if (!Parser.isInt(date)) {
+                        System.out.println("Date format is wrong");
+                        System.out.println("Date format is YearMonthDay - All numeric");
+                        System.out.println("The expected input is: \"startDate-endDate\"");
+                        System.exit(1);
+                    }
+                }
+
+                // Try and parse the dates values into Date objects
+                Date startDate = new Date();
+                Date endDate = new Date();
+                try {
+                    SimpleDateFormat dformat = new SimpleDateFormat("yyyyMMdd");
+                    startDate = dformat.parse(dates[0]);
+                    endDate = dformat.parse(dates[1]);
+                } catch (ParseException e){
+                    System.out.println("Could not parse value into date: " + e.getMessage());
+                    System.exit(1);
+                }
+
+                // Split time. Confirm it has two values
+                String[] times = arguments.get("-time").split("-");
+                if (times.length != 2) {
+                    System.out.println("Time format is wrong");
+                    System.out.println("Time format is HourMinute - All numeric");
+                    System.out.println("The expected input is: startTime-endTime");
+                    System.exit(1);
+                }
+
+                // Control the times are integer
+                for (String time : times) {
+                    time = time.replace("\"", "");
+                    if (!Parser.isInt(time)) {
+                        System.out.println("Time format is wrong");
+                        System.out.println("Time format is HourMinute - All numeric");
+                        System.out.println("The expected input is: startTime-endTime");
+                        System.exit(1);
+                    }
+                }
+
+                int startTime = Integer.parseInt(times[0]);
+                int endTime = Integer.parseInt(times[1]);
+
+                // Check that day of week is an integer
+                String dow = arguments.get("-day");
+                dow = dow.replace("\"", "");
+                if (!Parser.isInt(dow)) {
+                    System.out.println("Day value should be numeric (day of week)");
+                    System.out.println("0 = Monday,  6 = Sunday");
+                }
+
+                int day = Integer.parseInt(dow);
+
+                // Try and add the new event - If the ID is not unique, an exception will be thrown
+                try {
+                    events.AddEvent(arguments.get("-id"), startDate, endDate, arguments.get("-info"), day, startTime, endTime);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
+            }
+
+            // Delete an event TODO
+            if (arguments.containsKey("-delete") && arguments.size() == 3) {
+
+            }
+
+            // Update an event TODO
+            if (arguments.containsKey("-update") && arguments.size() >= 4) {
+
+            }
+        }
+
+
+
+
     }
 }

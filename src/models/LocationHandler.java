@@ -64,4 +64,15 @@ public class LocationHandler {
         String[] values = {location.GetId(), Integer.toString(location.GetPhone()), location.GetLocation()};
         csv.writeLine(values);
     }
+
+    /**
+     * Will confirm if a location id exists
+     * @param schoolID      The School ID to match against
+     * @return              (Bool) True/False
+     */
+    public boolean confirmLocationId(String schoolID) {
+        if (locations.containsKey(schoolID))
+            return true;
+        return false;
+    }
 }

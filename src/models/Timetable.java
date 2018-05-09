@@ -13,9 +13,14 @@ public class Timetable {
     private List<TimetableEvent> events;
     public Location location;
 
+    /**
+     * Constructor. Will run the method that populate the events for a specific location
+     * @param school        The location to read events from
+     */
     public Timetable(Location school) {
         this.events = new LinkedList<>();
         this.location = school;
+        ReadCsv();
     }
 
     /**
@@ -23,6 +28,7 @@ public class Timetable {
      * @return              All events
      */
     public List<TimetableEvent> GetWeekEvents(){
+
         return this.events;
     }
 
@@ -112,29 +118,24 @@ public class Timetable {
      * Then populate the list of events with those results.
      */
     private void ReadCsv() {
-        CsvReader events = new CsvReader("src/csv/events.csv");
+        CsvReader events = new CsvReader("csv/events.csv");
         for (String col[] : events.getResults()) {
             if (col[0].equals(location.GetId())){
-                try {
-                    // Start/End date
-                    SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
-                    Date startDate = dFormat.parse(col[4]);
-                    Date endDate = dFormat.parse(col[5]);
+                Date startDate = Parser.parseDate(col[4]);
+                Date endDate = Parser.parseDate(col[5]);
 
-                    // Parse ints (start/end time & day of week)
-                    int startTime = -1;
-                    int endTime = -1;
-                    int dow = -1;
-                    if (Parser.isInt(col[6]))
-                        startTime = Integer.parseInt(col[6]);
-                    if (Parser.isInt(col[7]))
-                        endTime = Integer.parseInt(col[7]);
-                    if (Parser.isInt(col[2]))
-                        dow = Integer.parseInt(col[2]);
+                // Parse ints (start/end time & day of week)
+                int startTime = -1;
+                int endTime = -1;
+                int dow = -1;
+                if (Parser.isInt(col[6]))
+                    startTime = Integer.parseInt(col[6]);
+                if (Parser.isInt(col[7]))
+                    endTime = Integer.parseInt(col[7]);
+                if (Parser.isInt(col[2]))
+                    dow = Integer.parseInt(col[2]);
 
-                    this.events.add(new TimetableEvent(col[1], dow, col[3], startDate, endDate, startTime, endTime));
-
-                } catch(Exception e) { System.out.printf(e.getMessage()); }
+                this.events.add(new TimetableEvent(col[1], dow, col[3], startDate, endDate, startTime, endTime));
             }
         }
 

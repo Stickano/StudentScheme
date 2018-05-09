@@ -1,5 +1,7 @@
 package resources;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +36,7 @@ public final class Parser {
         for (String value : parameters) {
             if (value.indexOf("=") > 0) {
                 String[] split = value.split("=");
-                result.put(split[0].toLowerCase(), split[1].toLowerCase());
+                result.put(split[0].toLowerCase(), split[1]);
             }else{
                 result.put(value.toLowerCase(), "");
             }
@@ -58,5 +60,23 @@ public final class Parser {
         }
 
         return hits;
+    }
+
+    /**
+     * Throughout, in the CSVs ie., the date formats are stored as yyyyMMdd format.
+     * This will parse that format to a Date object instead
+     * @param date      The yyyyMMdd value
+     * @return          (Date) The date object for that day
+     */
+    public static Date parseDate(String date) {
+        Date formatDate = new Date();
+        try {
+            SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
+            formatDate = dFormat.parse(date);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        return formatDate;
     }
 }
