@@ -23,6 +23,16 @@ public class Person {
     }
 
     /**
+     * Empty Constructor for invalid searches
+     */
+    public Person() {
+        this.firstName = "";
+        this.lastName = "";
+        this.dateOfBirth = new Date();
+        this.id = "";
+    }
+
+    /**
      * This will define the UID for a models.Person.
      * (dob + fname + lname)
      * @return              The generated ID

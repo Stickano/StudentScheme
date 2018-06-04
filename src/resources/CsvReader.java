@@ -70,4 +70,8 @@ public class CsvReader {
             System.out.println(e.getMessage());
         }
     }
+
+    public void updateLine() {
+
+    }
 }
