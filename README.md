@@ -65,7 +65,7 @@ I imagine that more documentation will be added as the functionality will come a
 Where the fun begins. A few pointers and usage information for the existing/working code.
 <br>
 ### Do yourself a favor and create an `alias`
-This is not a running application, but instead a CLI application that takes one argument at the time. When we run this application we have to include the included libraries and models, which adds to the command you have to write. Having to write the full command to run this java application would look something like; `java -cp "opencsv-4.1.jar:commons-lang3-3.7.jar:." com.company.Main -arg1 -arg2`which can be pretty tedious. 
+This is not a running application, but instead a CLI application that takes one argument at the time. When we run this application we have to include the additional libraries and models in the _classpath_, which adds to the command you have to write. Having to write the full command to run this java application would look something like; `java -cp "opencsv-4.1.jar:commons-lang3-3.7.jar:." com.company.Main -arg1 -arg2`which can be pretty tedious. 
 
 On your glorious linux system, though, you are able to quickly create an alias for such tedious commands! Following the rest of this guide will assume that the command `ssch` will fire up the application through the alias. 
 
