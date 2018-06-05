@@ -9,6 +9,7 @@ import models.TimetableEvent;
 import resources.Parser;
 import resources.Usage;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -271,7 +272,12 @@ public class Main {
 
             // Show specific student TODO
             if (arguments.containsKey("-id") && arguments.size() == 2){
+                Person student = students.getStudent(arguments.get("-id"));
+                DateFormat df = new SimpleDateFormat("MMM dd yyyy");
 
+                System.out.println();
+                System.out.println(student.getFirstName() + " " + student.getLastName());
+                System.out.println("Born: " + df.format(student.getDateOfBirth()));
             }
 
             // Create new student TODO

@@ -41,7 +41,6 @@ public class Person {
      */
     private String SetId(){
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-        //Date date = dateFormat.parse(String.valueOf(this.dateOfBirth.toString()));
         String dateConverter = dateFormat.format(this.dateOfBirth);
         return dateConverter + this.firstName.toLowerCase() + this.lastName.toLowerCase();
     }
