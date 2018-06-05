@@ -229,7 +229,7 @@ Feb 15 2018 - Jun 01 2018
 ### Create event
 Use `-create` to add new events. Additional 5 arguments are required; `-id`, `-day`, `-time`, `-date` and `-info`.
 
-The id has to be unique. <br
+The id has to be unique. <br>
 The day can be an integer value between 0-6, where 0 is Monday and 6 is Sunday.<br>
 Time is start/end time seperated by a `-` (minus) in `HHmm` format, ie. from 13:00 to 15:00; `-time="1300-1500"`.<br>
 Date is start/end date seperated by a `-` in `yyyyMMdd` format, ie. from January 10 to June 10, 2018; `-date="20180110-20180610"`.<br>
