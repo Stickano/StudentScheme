@@ -252,19 +252,17 @@ The `-students` argument is a main argument.
 
 
 ### Show all students
-Leave out other arguments to list all the students.<br>
-At the point of writing (well a lot) of this readme file, this is actually the point I have gotten to in my code as well. Having run this example I can see that a little adjusting is needed. The hour is close to 3am at this time though, and my bed really do seem more preferrable over debugging at this point. #TODO:
+Leave out other arguments to list all the students.
 
 ```
 $ ssch -students
 
-Firstname Lastname
-ID: Fri Jan 15 00:00:00 CET 1988firstnamelastname
-
 Anders Breivik
-ID: Sat Mar 06 00:00:00 CET 1982andersbreivik
+ID: 19820306andersbreivik
+
+Firstname Lastname
+ID: 19880115firstnamelastname
 
 Poul Erik
-ID: Tue Mar 12 00:00:00 CET 1991poulerik
-
+ID: 19910312poulerik
 ```
