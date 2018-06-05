@@ -257,9 +257,6 @@ Leave out other arguments to list all the students.
 ```
 $ ssch -students
 
-Anders Breivik
-ID: 19820306andersbreivik
-
 Firstname Lastname
 ID: 19880115firstnamelastname
 
