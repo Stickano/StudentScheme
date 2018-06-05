@@ -27,6 +27,7 @@ The requirements where to build a CLI application that could handle students and
       
    * [Students](#students)
       * [All students](#show-all-students)
+      * [Display student w/ ID](#show-student-from-id)
 
 <br><br>
 ### What's missing?
@@ -45,12 +46,13 @@ I imagine that more documentation will be added as the functionality will come a
      - Give feedback
   
 3. #### Student
-  - Show student from ID
+  - ~~Show student from ID~~
+     - Show marks
+     - Show enrollments
   - Create new student
   - Update students
   - Delete students
   - Enroll/Remove Enrollment to/from course
-  - Show student marks
   - Add/Remove student marks
   
 4. #### Teacher
@@ -263,3 +265,14 @@ ID: 19880115firstnamelastname
 Poul Erik
 ID: 19910312poulerik
 ```
+
+### Show student from ID
+Pass along `-id="[Student ID]"` to get individual students.
+
+```
+$ ssch -students -id="19910312poulerik"     
+
+Poul Erik
+Born: Mar 12 1991
+```
+
