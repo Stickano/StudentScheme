@@ -17,6 +17,9 @@ public class StudentController {
         readCsv();
     }
 
+    /**
+     * Reads all the records from the student CSV file and stores them in a dictionary
+     */
     private void readCsv() {
         CsvReader reader = new CsvReader("csv/students.csv");
         for (String[] student : reader.getResults()) {

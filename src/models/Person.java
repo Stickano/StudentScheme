@@ -1,5 +1,7 @@
 package models;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Person {
@@ -38,7 +40,9 @@ public class Person {
      * @return              The generated ID
      */
     private String SetId(){
-        String dateConverter = this.dateOfBirth.toString();
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+        //Date date = dateFormat.parse(String.valueOf(this.dateOfBirth.toString()));
+        String dateConverter = dateFormat.format(this.dateOfBirth);
         return dateConverter + this.firstName.toLowerCase() + this.lastName.toLowerCase();
     }
 

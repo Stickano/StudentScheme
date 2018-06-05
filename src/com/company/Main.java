@@ -146,6 +146,7 @@ public class Main {
 
             // Show specific event
             if (arguments.containsKey("-id") && arguments.size() == 3) {
+                System.out.println();
                 TimetableEvent event = events.GetEvent(arguments.get("-id"));
                 System.out.println(event.getId());
                 System.out.println(df.format(event.getStartDate()) + " - " + df.format(event.getEndDate()));
