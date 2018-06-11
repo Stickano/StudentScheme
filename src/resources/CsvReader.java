@@ -71,6 +71,7 @@ public class CsvReader {
         }
     }
 
+    // TODO: Just delete and create the object again
     public void updateLine() {
 
     }

@@ -140,8 +140,8 @@ public class TimetableController {
     private void ReadCsv() {
         for (String col[] : csv.getResults()) {
             if (col[0].equals(location.GetId())){
-                Date startDate = Parser.parseDate(col[4]);
-                Date endDate = Parser.parseDate(col[5]);
+                Date startDate = Parser.parseStringToDate(col[4]);
+                Date endDate = Parser.parseStringToDate(col[5]);
 
                 // Parse ints (start/end time & day of week)
                 int startTime = -1;

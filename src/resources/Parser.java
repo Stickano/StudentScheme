@@ -1,5 +1,6 @@
 package resources;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -68,7 +69,7 @@ public final class Parser {
      * @param date      The yyyyMMdd value
      * @return          (Date) The date object for that day
      */
-    public static Date parseDate(String date) {
+    public static Date parseStringToDate(String date) {
         Date formatDate = new Date();
         try {
             SimpleDateFormat dFormat = new SimpleDateFormat("yyyyMMdd");
@@ -78,5 +79,10 @@ public final class Parser {
         }
 
         return formatDate;
+    }
+
+    public static String parseDateToString(Date date) {
+        DateFormat df = new SimpleDateFormat("yyyyMMdd");
+        return df.format(date);
     }
 }

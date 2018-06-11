@@ -270,7 +270,7 @@ public class Main {
                 }
             }
 
-            // Show specific student TODO
+            // Show specific student TODO: Marks and Enrollments
             if (arguments.containsKey("-id") && arguments.size() == 2){
                 Person student = students.getStudent(arguments.get("-id"));
                 DateFormat df = new SimpleDateFormat("MMM dd yyyy");
@@ -282,7 +282,36 @@ public class Main {
 
             // Create new student TODO
             if (arguments.containsKey("-create") && arguments.size() == 4) {
+                if (!arguments.containsKey("-name") || !arguments.containsKey("-dob")) {
+                    System.out.println("Missing one of the following arguments: Name or Date of Birth");
+                    System.out.println("--help for usage information");
+                    System.exit(1);
+                }
 
+                // Check dob is an integer value
+                String dobString = arguments.get("-dob");
+                dobString = dobString.replace("\"", "");
+                if (!Parser.isInt(dobString))
+                    System.out.println("Day of Birth value should be numeric (yyyyMMdd)");
+
+                // Split the name (fname/lname)
+                String name[] = arguments.get("-name").split(" ", 2);
+                if (name.length == 1)
+                    name[1] = "-";
+
+                // Convert date TODO: use Parser parseDateToString() instead
+                Date dob = new Date();
+                try {
+                    SimpleDateFormat dformat = new SimpleDateFormat("yyyyMMdd");
+                    dob = dformat.parse(arguments.get("-dob"));
+                } catch (ParseException e){
+                    System.out.println("Could not parse value into date: " + e.getMessage());
+                    System.exit(1);
+                }
+
+                // Create a Person (student) object and pass to controller
+                Person student = new Person(name[0], name[1], dob);
+                students.createStudent(student);
             }
 
             // Update a student TODO
