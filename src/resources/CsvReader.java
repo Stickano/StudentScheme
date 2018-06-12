@@ -1,6 +1,8 @@
 package resources;
 
 import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
+
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -71,8 +73,24 @@ public class CsvReader {
         }
     }
 
-    // TODO: Just delete and create the object again
-    public void updateLine() {
-
+    /**
+     * Removes a line (record) from the CSV file
+     * @param linenumber    Which position in the file/list to remove
+     */
+    public void removeLine(int linenumber) {
+        try {
+            this.results.remove(linenumber);
+            FileWriter sw = new FileWriter(this.csvFile);
+            CSVWriter writer = new CSVWriter(sw);
+            writer.writeAll(this.results);
+            writer.close();
+        }catch (IOException e){
+            System.out.println(e.getMessage());
+        }
     }
+
+    // TODO: Just delete and create the object again
+    // Not really needed then, is it now.
+    // You can just handle that sort of logic from the controller, can't you know?! Dumbass.
+    public void updateLine() {}
 }

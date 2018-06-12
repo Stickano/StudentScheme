@@ -81,6 +81,11 @@ public final class Parser {
         return formatDate;
     }
 
+    /**
+     * Converts a Date object to our preferred string format (yyyyMMdd)
+     * @param date  The date to convert
+     * @return      The date in string format
+     */
     public static String parseDateToString(Date date) {
         DateFormat df = new SimpleDateFormat("yyyyMMdd");
         return df.format(date);

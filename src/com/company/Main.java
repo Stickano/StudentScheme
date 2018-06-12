@@ -278,9 +278,15 @@ public class Main {
                 System.out.println();
                 System.out.println(student.getFirstName() + " " + student.getLastName());
                 System.out.println("Born: " + df.format(student.getDateOfBirth()));
+
+                System.out.println();
+                System.out.println("Enrollments: ");
+                for (TimetableEvent event : students.getStudentEnrollments(arguments.get("-id"))) {
+                    System.out.println(event.getId() + ": " + event.getEventInformation());
+                }
             }
 
-            // Create new student TODO
+            // Create new student TODO test
             if (arguments.containsKey("-create") && arguments.size() == 4) {
                 if (!arguments.containsKey("-name") || !arguments.containsKey("-dob")) {
                     System.out.println("Missing one of the following arguments: Name or Date of Birth");
@@ -291,23 +297,20 @@ public class Main {
                 // Check dob is an integer value
                 String dobString = arguments.get("-dob");
                 dobString = dobString.replace("\"", "");
-                if (!Parser.isInt(dobString))
+                if (!Parser.isInt(dobString)) {
                     System.out.println("Day of Birth value should be numeric (yyyyMMdd)");
+                    System.exit(1);
+                }
 
                 // Split the name (fname/lname)
                 String name[] = arguments.get("-name").split(" ", 2);
-                if (name.length == 1)
+                if (name.length == 1) {
+                    System.out.println("Really? No last name. Poor kid. Default character assigned: minus (-)");
                     name[1] = "-";
-
-                // Convert date TODO: use Parser parseDateToString() instead
-                Date dob = new Date();
-                try {
-                    SimpleDateFormat dformat = new SimpleDateFormat("yyyyMMdd");
-                    dob = dformat.parse(arguments.get("-dob"));
-                } catch (ParseException e){
-                    System.out.println("Could not parse value into date: " + e.getMessage());
-                    System.exit(1);
                 }
+
+                // Convert date
+                Date dob = Parser.parseStringToDate(arguments.get("-dob"));
 
                 // Create a Person (student) object and pass to controller
                 Person student = new Person(name[0], name[1], dob);
@@ -321,11 +324,38 @@ public class Main {
 
             // Delete a student TODO
             if (arguments.containsKey("-delete") && arguments.size() == 2) {
+                if (!students.getStudentsDictionary().containsKey("-delete")){
+                    System.out.println("Invalid Student ID. Student not found.");
+                }
 
+                students.removeStudent(arguments.get("-delete"));
             }
 
             // Enroll (or remove) a student to courses TODO
             if (arguments.containsKey("-enroll") && arguments.size() == 4 || arguments.size() == 5) {
+                if (!arguments.containsKey("-student") || !arguments.containsKey("-class")) {
+                    System.out.println("Missing one of the following arguments: Student or Class ID");
+                    System.out.println("--help for usage information");
+                    System.exit(1);
+                }
+
+                // Check student ID is valid
+                if (!students.getStudentsDictionary().containsKey(arguments.get("-student"))){
+                    System.out.println("Invalid Student ID. Student not found.");
+                    System.exit(1);
+                }
+
+                // Check the event ID is valid
+                if (!students.checkEventId(arguments.get("-class"))) {
+                    System.out.println("Invalid Class ID. Class not found.");
+                    System.exit(1);
+                }
+
+                // Enroll student
+                if (arguments.size() == 4)
+                    students.enrollStudent(arguments.get("-student"), arguments.get("-class"));
+
+                // Remove enrollment TODO
 
             }
 
